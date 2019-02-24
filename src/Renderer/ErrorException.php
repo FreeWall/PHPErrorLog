@@ -1,5 +1,5 @@
 <?php
-namespace PHPErrorLogParser;
+namespace PHPErrorLog\Renderer;
 
 class ErrorException {
 
@@ -10,13 +10,16 @@ class ErrorException {
 	private $message;
 	private $stack;
 
-	public function __construct($args){
+	public function __construct($args,$sourceRoot){
 		$this->timestamp = $args['timestamp'];
 		$this->type = $args['type'];
-		$this->file = $args['file'];
+		$this->file = $sourceRoot.$args['file'];
 		$this->line = $args['line'];
 		$this->message = $args['message'];
 		$this->stack = $args['stack'];
+		foreach($this->stack AS $idx => $stack){
+			$this->stack[$idx]['file'] = $sourceRoot.$this->stack[$idx]['file'];
+		}
 	}
 
 	public function getTimestamp(){
