@@ -1,6 +1,6 @@
 <?php
 namespace PHPErrorLogParser;
 
-class PHPErrorLogParser {
+class ErrorRenderer {
 
 }
