@@ -1,17 +1,20 @@
 <?php
 namespace PHPErrorLog\Renderer;
 
-use PHPErrorLog\Helpers;
-
 require_once __DIR__."/ErrorException.php";
-require_once __DIR__."/../Helpers.php";
+require_once __DIR__."/Helpers.php";
+require_once __DIR__."/Dumper.php";
 
 class Renderer {
 
 	const EDITOR = 'editor://%action/?file=%file&line=%line&search=%search&replace=%replace';
 
-	public static $sourceRoot = "D:\\Backups";
+	public static $sourceRoot = "";
 	public static $editorMapping = [];
+
+	public function __construct(string $sourceRoot){
+		self::$sourceRoot = $sourceRoot;
+	}
 
 	public function render(array $errors){
 		echo "<pre>";print_r($errors);
@@ -36,6 +39,8 @@ class Renderer {
 
 		$title = Helpers::errorTypeToString($exception->getType());
 
+		$dump = $this->getDumper();
+
 		$css = file_get_contents(__DIR__."/assets/styles.css");
 		$css = preg_replace('#\s+#u',' ',$css);
 
@@ -44,6 +49,22 @@ class Renderer {
 
 	public function isCollapsed(string $file):bool {
 		return false;
+	}
+
+	public function getDumper():\Closure {
+		$keysToHide = array_flip(array_map('strtolower', $this->keysToHide));
+		return function ($v, $k = null) use ($keysToHide): string {
+			if (is_string($k) && isset($keysToHide[strtolower($k)])) {
+				$v = Dumper::HIDDEN_VALUE;
+			}
+			return Dumper::toHtml($v, [
+				Dumper::DEPTH => $this->maxDepth,
+				Dumper::TRUNCATE => $this->maxLength,
+				Dumper::SNAPSHOT => &$this->snapshot,
+				Dumper::LOCATION => Dumper::LOCATION_CLASS,
+				Dumper::KEYS_TO_HIDE => $this->keysToHide,
+			]);
+		};
 	}
 
 	public static function highlightFile(string $file, int $line, int $lines = 15, array $vars = []):?string {

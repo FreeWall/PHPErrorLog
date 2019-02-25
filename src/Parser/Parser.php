@@ -81,7 +81,7 @@ class Parser {
 						continue;
 					}
 
-					$stackTrace = null;
+					$stackTrace = [];
 					if(false !== strpos($currentLine, '\nStack trace:')){
 						$stackTrace = explode('\nStack trace:',$currentLine)[1];
 						$currentLine = explode('\nStack trace:',$currentLine)[0];
@@ -93,7 +93,7 @@ class Parser {
 						$stackTrace = [];
 						foreach($stackLines AS $stackLine){
 							if(!empty($stackLine)){
-								if(strpos($stackLine, '{main}') !== false) break;
+								if(strpos($stackLine, '{main}') !== false || strpos($stackLine, '{m ') !== false) break;
 								preg_match('/#\d+ (.*)\((\d+)\): (.*\((.*)\))/', $stackLine, $stack);
 								$stack = [
 									'file' => $stack[1],
@@ -110,12 +110,12 @@ class Parser {
 					if(strpos($errorMessage,'Uncaught Error:') !== false) $errorMessage = trim(explode('Uncaught Error:',$currentLine)[1]);
 
 					$errors[] = [
-						'timestamp'   => $errorDateTime,
-						'type'       => $errorType,
-						'file'       => $errorFile,
-						'line'       => (int)$errorLine,
-						'message'    => $errorMessage,
-						'stack' => $stackTrace,
+						'timestamp' => $errorDateTime,
+						'type'      => $errorType,
+						'file'      => $errorFile,
+						'line'      => (int)$errorLine,
+						'message'   => $errorMessage,
+						'stack'     => $stackTrace,
 					];
 				}
 			}

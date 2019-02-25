@@ -4,11 +4,18 @@
 	<meta charset="utf-8">
 	<meta name="robots" content="noindex">
 	<title>PHPErrorLog</title>
+	<script>
+		var Tracy = {};
+		<?php readfile(__DIR__.'/toggle.js') ?>
+	</script>
 	<style type="text/css" class="tracy-debug">
 		<?= str_replace('</', '<\/', $css) ?>
 	</style>
 </head>
 <body>
 <?php require __DIR__.'/content.phtml' ?>
+<script>
+	Tracy.Toggle.init();
+</script>
 </body>
 </html>

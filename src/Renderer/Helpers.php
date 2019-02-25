@@ -1,12 +1,8 @@
 <?php
-namespace PHPErrorLog;
-
-use PHPErrorLog\Renderer\Renderer;
+namespace PHPErrorLog\Renderer;
 
 class Helpers
 {
-
-
 
 	/**
 	 * Returns HTML link to editor.

@@ -1,16 +1,13 @@
 <?php
-
 namespace PHPErrorLog\Renderer;
 
-use \PHPErrorLog\Helpers as Helpers;
+use \PHPErrorLog\Renderer\Helpers as Helpers;
 
 ?>
 <div id="tracy-bs">
 	<div>
 		<div id="tracy-bs-error" class="panel">
-			<?php if ($exception->getMessage()): ?><p><?= Helpers::escapeHtml($title) ?></p><?php endif ?>
-
-
+			<?php if ($exception->getMessage()): ?><p><span><?= Helpers::escapeHtml($title) ?></span><span class="date"><?= @date('d.m.Y H:i:s', $exception->getTimestamp()) ?></span></p><?php endif ?>
 			<h1><span><?= $messageHtml ?: Helpers::escapeHtml($title . $code) ?></span>
 		</div>
 
@@ -106,24 +103,6 @@ use \PHPErrorLog\Helpers as Helpers;
 			</div></div>
 			<?php endif ?>
 
-
-			<?php if ($ex instanceof \ErrorException && isset($ex->context) && is_array($ex->context)):?>
-			<div class="panel">
-			<h2><a data-tracy-ref="^+" class="tracy-toggle tracy-collapsed">Variables</a></h2>
-
-			<div class="tracy-collapsed inner">
-			<div class="outer">
-			<table>
-			<?php
-			foreach ($ex->context as $k => $v) {
-				echo '<tr><th>$', Helpers::escapeHtml($k), '</th><td>', $dump($v, $k), "</td></tr>\n";
-			}
-			?>
-			</table>
-			</div>
-			</div></div>
-			<?php endif ?>
-
 		<?php } while (false); ?>
 		<?php while (--$level) echo '</div></div>' ?>
 
@@ -135,10 +114,5 @@ use \PHPErrorLog\Helpers as Helpers;
 		<?= $dump($exception) ?>
 		</div></div>
 		<?php endif ?>
-
-
-		<ul>
-			<li><?= @date('d.m.Y H:i:s', $exception->getTimestamp()) ?></li>
-		</ul>
 	</div>
 </div>

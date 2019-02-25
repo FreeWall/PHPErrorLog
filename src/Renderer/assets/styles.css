@@ -82,6 +82,10 @@
 	font-style: normal;
 }
 
+#tracy-bs-error span.date {
+	float:right;
+}
+
 #tracy-bs-ie-warning {
 	background: black;
 	margin: 1em;

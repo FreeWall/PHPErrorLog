@@ -12,9 +12,9 @@ class PHPErrorLog {
 	private $parser;
 	private $renderer;
 
-	public function __construct(){
+	public function __construct(string $sourceRoot = ""){
 		$this->parser = new Parser\Parser();
-		$this->renderer = new Renderer\Renderer();
+		$this->renderer = new Renderer\Renderer($sourceRoot);
 	}
 
 	public function loadFromFile(string $filename){
