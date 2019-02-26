@@ -9,11 +9,9 @@ class Renderer {
 
 	const EDITOR = 'editor://%action/?file=%file&line=%line&search=%search&replace=%replace';
 
-	public static $sourceRoot = "";
 	public static $editorMapping = [];
 
-	public function __construct(string $sourceRoot,array $editorMapping){
-		self::$sourceRoot = $sourceRoot;
+	public function __construct(array $editorMapping){
 		self::$editorMapping = $editorMapping;
 	}
 
@@ -30,8 +28,12 @@ class Renderer {
 		echo "File '".$filename."' not found";
 	}
 
+	public function renderException($exception){
+		echo "Error: ".$exception->getMessage();
+	}
+
 	private function renderError($error){
-		$exception = new ErrorException($error,self::$sourceRoot);
+		$exception = new ErrorException($error);
 		$messageHtml = preg_replace(
 			'#\'\S[^\']*\S\'|"\S[^"]*\S"#U',
 			'<i>$0</i>',

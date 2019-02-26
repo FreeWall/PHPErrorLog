@@ -10,7 +10,7 @@ class ErrorException {
 	private $message;
 	private $stack;
 
-	public function __construct($args,$sourceRoot){
+	public function __construct($args){
 		$this->timestamp = $args['timestamp'];
 		$this->type = $args['type'];
 		$this->file = Helpers::parseFilePath($args['file']);

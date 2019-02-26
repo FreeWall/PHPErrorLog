@@ -6,14 +6,8 @@ class Parser {
 	private $file;
 	private $errors;
 
-	public function loadFromFile(string $filename){
-		if(!($this->file = @fopen($filename,'rb'))){
-			throw new \Exception("File '".$filename."' not found.");
-		}
-	}
-
-	public function loadFromSFTP(string $filename,string $host,string $user,string $password,string $pubkey = null){
-
+	public function setFile($file){
+		$this->file = $file;
 	}
 
 	public function getErrors():array {
@@ -119,6 +113,7 @@ class Parser {
 					];
 				}
 			}
+			fclose($this->file);
 		}
 		return $errors;
 	}
