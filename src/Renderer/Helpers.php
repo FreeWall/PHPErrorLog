@@ -4,6 +4,11 @@ namespace PHPErrorLog\Renderer;
 class Helpers
 {
 
+	public static function parseFilePath(string $file)
+	{
+		return strtr($file, Renderer::$editorMapping);
+	}
+
 	/**
 	 * Returns HTML link to editor.
 	 */
