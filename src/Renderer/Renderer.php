@@ -12,8 +12,9 @@ class Renderer {
 	public static $sourceRoot = "";
 	public static $editorMapping = [];
 
-	public function __construct(string $sourceRoot){
+	public function __construct(string $sourceRoot,array $editorMapping){
 		self::$sourceRoot = $sourceRoot;
+		self::$editorMapping = $editorMapping;
 	}
 
 	public function render(array $errors){
