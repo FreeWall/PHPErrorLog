@@ -13,12 +13,12 @@ class ErrorException {
 	public function __construct($args,$sourceRoot){
 		$this->timestamp = $args['timestamp'];
 		$this->type = $args['type'];
-		$this->file = $sourceRoot.$args['file'];
+		$this->file = Helpers::parseFilePath($args['file']);
 		$this->line = $args['line'];
 		$this->message = $args['message'];
 		$this->stack = $args['stack'];
 		foreach($this->stack AS $idx => $stack){
-			$this->stack[$idx]['file'] = $sourceRoot.$this->stack[$idx]['file'];
+			$this->stack[$idx]['file'] = Helpers::parseFilePath($this->stack[$idx]['file']);
 		}
 	}
 
