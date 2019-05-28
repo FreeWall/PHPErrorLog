@@ -4,9 +4,9 @@ namespace PHPErrorLog\Renderer;
 class Helpers
 {
 
-	public static function parseFilePath(string $file)
+	public static function parseFilePath(?string $file)
 	{
-		return strtr($file, Renderer::$editorMapping);
+		return ($file ? strtr($file, Renderer::$editorMapping) : null);
 	}
 
 	/**
